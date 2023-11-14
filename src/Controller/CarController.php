@@ -140,7 +140,7 @@ class CarController extends AbstractController
 
             // Persist all changes to the database
             $entityManager->flush();
-            $this->addFlash('success', "La mise à jour a été effectuée avec succès.");
+            $this->addFlash('success', "La mise à jour a été effectuée.");
             return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
         }
 
