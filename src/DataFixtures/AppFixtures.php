@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 2; $i++) {
             $user= new User();
             $user->setEmail($faker->email);
-            $user->setPassword($this->passwordEncoder->hashPassword($user,'flanord'));
+            $user->setPassword($this->passwordEncoder->hashPassword($user,'garage'));
             $user->setRoles(['ROLE_ADMIN']);
             $manager->persist($user);
         }
@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 2; $i++) {
             $user= new User();
             $user->setEmail($faker->email);
-            $user->setPassword($this->passwordEncoder->hashPassword($user,'flanord'));
+            $user->setPassword($this->passwordEncoder->hashPassword($user,'garage'));
             $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
         }
@@ -40,7 +40,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 2; $i++) {
             $user= new User();
             $user->setEmail($faker->email);
-            $user->setPassword($this->passwordEncoder->hashPassword($user,'flanord'));
+            $user->setPassword($this->passwordEncoder->hashPassword($user,'garage'));
             $user->setRoles(['']);
             $manager->persist($user);
 
