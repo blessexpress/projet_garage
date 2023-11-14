@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>  {% block title %}{% endblock %}  </title>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="">
+    <meta name="description"
+          content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo_garage_v_parrot.png') }}">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+
+    {% block stylesheets %}
+        {% block head_css %}
+            <!-- Plugins CSS -->
+            <link rel="stylesheet" href="{{ asset('backend/vendor/font-awesome/css/all.min.css') }}">
+            <link rel="stylesheet"
+                  href="{{ asset('backend/vendor/bootstrap-icons/bootstrap-icons.css') }}">
+            <link rel="stylesheet" href="{{ asset('backend/vendor/apexcharts/css/apexcharts.css') }}">
+            <link rel="stylesheet"
+                  href="{{ asset('backend/vendor/overlay-scrollbar/css/OverlayScrollbars.min.css') }}">
+
+            <!-- Theme CSS -->
+            <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
+
+        {% endblock %}
+    {% endblock %}
+</head>
+
+<body>
+<main>
+    <!-- Sidebar START -->
+    <nav class="navbar sidebar navbar-expand-xl navbar-dark bg-dark">
+        <!-- Navbar brand for xl START -->
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" href="{{ path('app_dashboard') }}">
+                <img class="navbar-brand-item" src="" alt="">
+            </a>
+        </div>
+        <!-- Navbar brand for xl END -->
+        <div class="offcanvas offcanvas-start flex-row custom-scrollbar h-100" data-bs-backdrop="true" tabindex="-1"
+             id="offcanvasSidebar">
+            <div class="offcanvas-body sidebar-content d-flex flex-column bg-dark">
+
+                <!-- Sidebar menu START -->
+                <ul class="navbar-nav flex-column" id="navbar-sidebar">
+
+                    <!-- Menu item 1 -->
+                    <li class="nav-item"><a href="{{ path('app_dashboard') }}" class="nav-link active"><i
+                                    class="bi bi-house fa-fw me-2"></i>Tableau de bord</a></li>
+
+                    <!-- Title -->
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item ms-2 my-2">Pages</li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_service_index') }}"><i
+                                        class="fas fa-server fa-fw me-2"></i>Services</a>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_car_index') }}"><i
+                                        class="fas fa-car fa-fw me-2"></i>Vehicule</a>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_schedule_edit') }}"><i
+                                        class="fas fa-clock fa-fw me-2"></i>Horaires</a>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_testimonial_index') }}"><i
+                                        class="fas fa-comment-alt fa-fw me-2"></i>Avis</a>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_user_index') }}"><i
+                                        class="far fa-user fa-fw me-2"></i>Utilisateurs</a>
+                        </li>
+                    {% else %}
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_car_index') }}"><i
+                                        class="fas fa-car fa-fw me-2"></i>Vehicule</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_testimonial_new') }}"><i
+                                        class="fas fa-comment-alt fa-fw me-2"></i>Avis</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+                <!-- Sidebar footer START -->
+                <div class="px-3 mt-auto pt-3">
+                    <div class="d-flex align-items-center justify-content-between text-primary-hover">
+                        <a class="h5 mb-0 text-body" href="{{ path('app_home') }}" data-bs-toggle="tooltip"
+                           data-bs-placement="top"
+                           title="Accueil">
+                            <i class="bi bi-globe"></i>
+                        </a>
+                        <a class="h5 mb-0 text-body" href="{{ path('app_logout') }}" data-bs-toggle="tooltip"
+                           data-bs-placement="top"
+                           title="Déconnexion">
+                            <i class="bi bi-power"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Sidebar footer END -->
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <!-- Top bar START -->
+        <nav class="top-bar navbar-light border-bottom py-0 py-xl-3">
+            <div class="container-fluid p-0">
+                <div class="d-flex align-items-center w-100">
+
+                    <!-- Logo START -->
+                    <div class="d-flex align-items-center d-xl-none">
+                        <a class="navbar-brand" href="{{ path('app_dashboard') }}">
+                            <img class="light-mode-item navbar-brand-item h-30px"
+                                 src="{{ asset('assets/img/logo_garage_v_parrot.png') }}"
+                                 alt="">
+                            <img class="dark-mode-item navbar-brand-item h-30px"
+                                 src="{{ asset('assets/img/logo_garage_v_parrot.png') }}" alt="">
+                        </a>
+                    </div>
+                    <!-- Logo END -->
+
+                    <!-- Toggler for sidebar START -->
+                    <div class="navbar-expand-xl sidebar-offcanvas-menu">
+                        <button class="navbar-toggler me-auto" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar"
+                                aria-expanded="false" aria-label="Toggle navigation" data-bs-auto-close="outside">
+                            <i class="bi bi-text-right fa-fw h2 lh-0 mb-0 rtl-flip"
+                               data-bs-target="#offcanvasMenu"> </i>
+                        </button>
+                    </div>
+                    <!-- Toggler for sidebar END -->
+
+                    <!-- Top bar left -->
+                    <div class="navbar-expand-lg ms-auto ms-xl-0">
+
+                        <!-- Toggler for menubar START -->
+                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarTopContent" aria-controls="navbarTopContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-animation">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+                        </button>
+                        <!-- Toggler for menubar END -->
+
+                    </div>
+                    <!-- Top bar left END -->
+
+                    <!-- Top bar right START -->
+                    <div class="ms-xl-auto">
+                        <ul class="navbar-nav flex-row align-items-center">
+                            <!-- Profile dropdown START -->
+                            <li class="nav-item ms-2 ms-md-3 dropdown">
+                                <!-- Avatar -->
+                                <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button"
+                                   data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <i class="fas fa-user-circle fa-2x fa-fw me-1"></i>
+                                </a>
+
+                                <!-- Profile dropdown START -->
+                                <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
+                                    aria-labelledby="profileDropdown">
+                                    <!-- Profile info -->
+                                    <li class="px-3">
+                                        <div class="d-flex align-items-center">
+                                            <!-- Avatar -->
+                                            <div class="avatar me-3">
+                                                <i class="fas fa-user-circle fa-2x fa-fw me-1"></i>
+                                            </div>
+                                            <div>
+                                                <a class="h6 mt-2 mt-sm-0" href="#"></a>
+                                                <p class="small m-0">{{ app.user.userIdentifier }}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </li>
+
+                                    <!-- Links -->
+                                    <li><a class="dropdown-item bg-danger-soft-hover" href="{{ path('app_logout') }}"><i
+                                                    class="bi bi-power fa-fw me-2"></i>Se déconnecter</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                </ul>
+                                <!-- Profile dropdown END -->
+                            </li>
+                            <!-- Profile dropdown END -->
+                        </ul>
+                    </div>
+                    <!-- Top bar right END -->
+                </div>
+            </div>
+        </nav>
+        <!-- Top bar END -->
+        {% block body %}{% endblock %}
+
+    </div>
+
+</main>
+<!-- Back to top -->
+<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
+{% block javascripts %}
+    {% block head_js %}
+        <!-- Bootstrap JS -->
+        <script src="{{ asset('backend/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+        <!-- Vendors -->
+        <script src="{{ asset('backend/vendor/purecounterjs/dist/purecounter_vanilla.js') }}"></script>
+        <script src="{{ asset('backend/vendor/apexcharts/js/apexcharts.min.js') }}"></script>
+        <script src="{{ asset('backend/vendor/overlay-scrollbar/js/overlayscrollbars.min.html') }}"></script>
+
+        <!-- Template Functions -->
+        <script src="{{ asset('backend/js/functions.js') }}"></script>
+    {% endblock %}
+{% endblock %}
+</body>
+</html>

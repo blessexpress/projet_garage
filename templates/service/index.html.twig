@@ -1,0 +1,89 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Service {% endblock %}
+
+ {% block head_css %}
+
+     {{ parent() }}
+
+     <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
+ {% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper border">
+
+        <!-- Title -->
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0">Service</h1>
+                <a href="{{ path('app_service_new') }}" class="btn btn-sm btn-primary mb-0">Créer un service</a>
+            </div>
+        </div>
+
+
+        <!-- Main card START -->
+        <div class="card bg-transparent border">
+
+            {{ include ('components/flash_message.html.twig') }}
+
+            <!-- Card body START -->
+            <div class="card-body">
+                <!-- Instructor request table START -->
+                <div class="table-responsive border-0">
+                    <table id="service_table" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-0 rounded-start">Titre</th>
+                            <th scope="col" class="border-0">Description</th>
+                            <th scope="col" class="border-0 rounded-end">actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for service in services %}
+                        <tr>
+                            <td>{{ service.title }}</td>
+                            <td>{{ service.description }}</td>
+                            <td>
+                                <a class="btn btn-danger-soft me-1 mb-1 mb-lg-0"
+                                   href="{{ path('app_service_edit', {'id': service.id}) }}">Modifier</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            let table_naf = $('#service_table').DataTable({
+                language: {
+                    "emptyTable": "Aucune service existant",
+                    "info": "_START_ - _END_ (sur _TOTAL_ éléments)",
+                    "infoEmpty": "Aucun élément à afficher",
+                    "infoFiltered": "(filtré depuis un total de _MAX_ éléments)",
+                    "lengthMenu": "Affichage de _MENU_ log(s)",
+                    "search": "",
+                    "searchPlaceholder": "Rechercher service",
+                    "zeroRecords": "Aucun  service trouvé",
+                    "paginate": {
+                        "first": "Première",
+                        "last": "Dernière",
+                        "next": "Suivante",
+                        "previous": "Précédente"
+                    }
+                },
+            });
+        });
+    </script>
+{% endblock %}

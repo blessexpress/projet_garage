@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Nos services  {% endblock %}
+
+{% block body %}
+    <section class="section services">
+        <div class="service-right">
+            <img src="/assets/img/bg/service-right.svg" class="img-fluid" alt="services right">
+        </div>
+        <div class="container">
+
+            <div class="section-heading" data-aos="fade-down">
+                <h2>Découvrez nos services</h2>
+                <p> Dans notre centre, nous nous engageons à fournir des services de haute qualité pour vous assurer que votre véhicule roule dans les meilleures conditions. Du controle technique à la résolution de problèmes complexes, notre équipe possède l’expérience et les compétences nécessaires pour prendre soin de votre véhicule avec attention et précision.</p>
+            </div>
+
+            <div class="services-work">
+                <div class="row">
+
+                    {% for service in services %}
+                    <div class="col-lg-6 col-md-4 col-12" data-aos="fade-down">
+                        <div class="services-group">
+                            <div class="services-content">
+                                <h4> <i class="fa-regular fa-arrow-alt-circle-right"></i> {{ service.title }}</h4>
+                                <p></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% else %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

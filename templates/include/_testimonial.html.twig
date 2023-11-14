@@ -1,0 +1,39 @@
+<section class="section about-testimonial testimonials-section">
+    <div class="container">
+
+        <div class="section-heading" data-aos="fade-down">
+            <h2 class="title text-white">Ce que les gens disent de nous ?</h2>
+        </div>
+
+        <div class="owl-carousel about-testimonials testimonial-group mb-0 owl-theme">
+
+            {% for testimonial in approvedTestimonials %}
+                <div class="testimonial-item d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <div class="quotes-head"></div>
+                            <div class="review-box">
+                                <div class="review-details">
+                                    <h6>{{ testimonial.fullname }}</h6>
+                                    <div class="list-rating">
+                                        <div class="list-rating-star">
+                                            {% for i in 1..5 %}
+                                                <i class="fas fa-star{% if i <= testimonial.note %} filled{% endif %}"></i>
+                                            {% endfor %}
+                                            <p><span>({{ testimonial.note }}/5)</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>{{ testimonial.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="view-all">
+            <a href="{{ path('app_public_testimonial') }}" class="btn btn-view d-inline-flex align-items-center"> Votre Avis nous intéresse <span><i class="feather-arrow-right ms-2"></i></span></a>
+        </div>
+    </div>
+</section>

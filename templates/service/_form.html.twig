@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+<div class="row g-4">
+    <div class="col-md-12">
+        {{ form_label(form.title) }}
+        <div class="form-error">
+            {{ form_errors(form.title) }}
+        </div>
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'} }) }}
+    </div>
+
+    <div class="col-12">
+        {{ form_label(form.description) }}
+        <div class="form-error">
+            {{ form_errors(form.description) }}
+        </div>
+        {{ form_widget(form.description, {'attr': {'class': 'form-control','rows':"5",'cols':"33"} }) }}
+    </div>
+
+    <div class="d-md-flex justify-content-between align-items-end mt-4">
+        <div class="text-md-end">
+            <button type="submit" class="btn btn-success mb-2 mb-sm-0">{{ button_label|default('Créer service') }}</button>
+
+        </div>
+    </div>
+
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} Garage V.Parrot {% endblock %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1 , shrink-to-fit=no">
+        <meta name="author" content="">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="description" content="">
+        <link rel="icon" href="{{ asset('assets/img/logo_garage_v_parrot.png') }}"/>
+
+        {% block stylesheets %}
+        {% block head_css %}
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        {% endblock %}
+        {% endblock %}
+
+
+
+        {% block javascripts %}
+
+        {% block head_js %}
+            <script src="{{ asset('assets/js/jquery-3.6.4.min.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('assets/js/script.js') }}"></script>
+        {% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+    <div class="main-wrapper login-body">
+
+        <header class="log-header">
+            <a href="{{ path('app_home') }}"><img class="img-fluid logo-dark" src="{{ asset('assets/img/logo_garage_v_parrot.png') }}" alt="Logo"></a>
+        </header>
+
+        <div class="login-wrapper">
+            <div class="loginbox">
+                <div class="login-auth">
+                    <div class="login-auth-wrap">
+                        <div class="sign-group">
+                            <a href="{{ path('app_home') }}" class="btn sign-up"><span><i class="fe feather-corner-down-left" aria-hidden="true"></i></span> retour</a>
+                        </div>
+                        <h1>Connexion</h1>
+                        <p class="account-subtitle"></p>
+                        <form method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                            {% if app.user %}
+                                <div class="mb-3">
+                                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label class="form-label">Adresse e-mail <span class="text-danger">*</span></label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="e-mail" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mot de passe <span class="text-danger">*</span></label>
+                                <div class="pass-group">
+                                    <input type="password" name="password" id="inputPassword" class="form-control pass-input" autocomplete="current-password" required>
+                                    <span class="fas fa-eye toggle-password"></span>
+                                </div>
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <a class="forgot-link" href=""></a>
+                            </div>
+                            <div class="form-group m-0">
+                                <label class="custom_check d-inline-flex"><span>Se souvenir moi</span>
+                                    <input type="checkbox" name="remeber">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <button class="bbtn btn-outline-light w-100 btn-size mt-1" type="submit">
+                                Connexion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="log-footer">
+            <div class="container-fluid">
+
+                <div class="copyright">
+                    <div class="copyright-text">
+                        <p>©  Garage V parrot.Tous droits réservés.</p>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+    </body>
+</html>

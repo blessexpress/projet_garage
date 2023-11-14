@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Garage V.Parrot {% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , shrink-to-fit=no">
+    <meta name="author" content="">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="">
+    <link rel="icon" href="{{ asset('assets/img/logo_garage_v_parrot.png') }}"/>
+    {% block stylesheets %}
+        {% block head_css %}
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/plugins/aos/aos.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
+
+
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        {% endblock %}
+    {% endblock %}
+</head>
+<body>
+<div class="main-wrapper">
+
+    {% set current_route = app.request.attributes.get('_route') %}
+
+    <header class="header">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                    <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </span>
+                    </a>
+                    <a href="{{ path('app_home') }}" class="navbar-brand logo">
+                        <img src="{{ asset('assets/img/logo_garage_v_parrot.png') }}"
+                             style="max-width: 47%;height: auto" alt="logo_garage_v_parrot">
+                    </a>
+                    <a href="{{ path('app_home') }}" class="navbar-brand logo-small">
+                        <img src="{{ asset('assets/img/logo_garage_v_parrot.png') }}"
+                             style="max-width: 47%;height: auto" alt="logo_garage_v_parrot">
+                    </a>
+                </div>
+                <div class="main-menu-wrapper">
+                    <div class="menu-header">
+                        <a href="{{ path('app_home') }}" class="menu-logo">
+                            <img src="{{ asset('assets/img/logo_garage_v_parrot.png') }}"
+                                 style="max-width: 47%;height: auto" alt="logo_garage_v_parrot">
+                        </a>
+                        <a id="menu_close" class="menu-close" href="javascript:void(0);"> <i
+                                    class="fas fa-times"></i></a>
+                    </div>
+                    <ul class="main-nav">
+                        <li class="{{ current_route == 'app_home' ? 'active' : '' }}">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+
+                        <li class="{{ current_route == 'app_services' ? 'active' : '' }}">
+                            <a href="{{ path('app_services') }}">Services</a>
+                        </li>
+
+                        <li class="{{ current_route == 'app_vehicule' ? 'active' : '' }}">
+                            <a href="{{ path('app_vehicule') }}"> Véhicules d'occasion</a>
+                        </li>
+
+                        <li class="{{ current_route == 'app_contact' ? 'active' : '' }}">
+                            <a href="{{ path('app_contact') }}">Nous contacter</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+                {% if is_granted('ROLE_USER') %}
+                    <ul class="nav header-navbar-rht has-submenu">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link header-login dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span><i class="fa-regular fa-user"></i></span>{{ app.user.userIdentifier }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ path('app_dashboard') }}">Tableau de bord</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                {% else %}
+                    <ul class="nav header-navbar-rht">
+                        <li class="nav-item">
+                            <a class="nav-link header-login" href="{{ path('app_login') }}"><span><i
+                                            class="fa-regular fa-user"></i></span>Connexion</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% block body %}
+
+
+    {% endblock %}
+    <footer class="footer">
+        <div class="footer-top aos" data-aos="fade-up">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="footer-widget footer-menu">
+                            <h5 class="footer-title">À propos de l'entreprise</h5>
+                            <ul>
+                                <li>
+                                    <a href="">Garage V. Parrot</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget footer-menu">
+                            <h5 class="footer-title">Liens rapides</h5>
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0)">Mon compte</a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)">Nos services</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">Nos véhicules d'occassion</a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)">Nous contacter</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-contact footer-widget">
+                            <h6>Horaires d'ouverture </h6>
+                            <div class="footer-contact-info">
+                                <div class="footer-address">
+                                    {% set schedules = displaySchedule() %}
+                                    <ul class="nav-social text-white">
+                                        <li>Lundi
+                                            : {{ (schedules.Monday is null or schedules.Monday.open == '00:00') ? 'Fermé' : schedules.Monday.open ~ ' - ' ~ schedules.Monday.close }}</li>
+                                        <li>Mardi
+                                            : {{ (schedules.Tuesday is null or schedules.Tuesday.open == '00:00') ? 'Fermé' : schedules.Tuesday.open ~ ' - ' ~ schedules.Tuesday.close }}</li>
+                                        <li>Mercredi
+                                            : {{ (schedules.Wednesday is null or schedules.Wednesday.open == '00:00') ? 'Fermé' : schedules.Wednesday.open ~ ' - ' ~ schedules.Wednesday.close }}</li>
+                                        <li>Jeudi
+                                            : {{ (schedules.Thursday is null or schedules.Thursday.open == '00:00') ? 'Fermé' : schedules.Thursday.open ~ ' - ' ~ schedules.Thursday.close }}</li>
+                                        <li>Vendredi
+                                            : {{ (schedules.Friday is null or schedules.Friday.open == '00:00') ? 'Fermé' : schedules.Friday.open ~ ' - ' ~ schedules.Friday.close }}</li>
+                                        <li>Samedi
+                                            : {{ (schedules.Saturday is null or schedules.Saturday.open == '00:00') ? 'Fermé' : schedules.Saturday.open ~ ' - ' ~ schedules.Saturday.close }}</li>
+                                        <li>Dimanche
+                                            : {{ (schedules.Sunday is null or schedules.Sunday.open == '00:00') ? 'Fermé' : schedules.Sunday.open ~ ' - ' ~ schedules.Sunday.close }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+
+                <div class="copyright">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="copyright-text">
+                                <p>© 2023 Garage V. Parrot . Tous les droits sont réservés.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="copyright-menu">
+                                <div class="vistors-details">
+                                    <ul class="d-flex">
+                                        <li><a href="javascript:void(0)"><img class="img-fluid"
+                                                                              src="/assets/img/icons/paypal.svg"
+                                                                              alt="Paypal"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="img-fluid"
+                                                                              src="/assets/img/icons/visa.svg"
+                                                                              alt="Visa"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="img-fluid"
+                                                                              src="/assets/img/icons/master.svg"
+                                                                              alt="Master"></a></li>
+                                        <li><a href="javascript:void(0)"><img class="img-fluid"
+                                                                              src="/assets/img/icons/applegpay.svg"
+                                                                              alt="applegpay"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </footer>
+    <div class="progress-wrap active-progress">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
+                  style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919px, 307.919px; stroke-dashoffset: 228.265px;"></path>
+        </svg>
+    </div>
+</div>
+{% block javascripts %}
+    {% block head_js %}
+        <script src="{{ asset('assets/js/jquery-3.6.4.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+
+        <script src="{{ asset('assets/js/jquery.waypoints.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery.counterup.min.js') }}"></script>
+
+
+        <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+        <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+        <script src="{{ asset('assets/js/backToTop.js') }}"></script>
+
+        <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
+        <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+
+
+        <script src="{{ asset('assets/js/script.js') }}"></script>
+    {% endblock %}
+{% endblock %}
+</body>
+</html>

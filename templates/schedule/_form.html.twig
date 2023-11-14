@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+<div class="row g-4">
+    {% for field in form %}
+    <div class="col-md-6">
+        {{ form_label(field) }}
+        <div class="form-error">
+            {{ form_errors(field) }}
+        </div>
+        {{ form_widget(field, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    {% endfor %}
+
+    <div class="d-md-flex justify-content-between align-items-end mt-4">
+        <div class="text-md-end">
+            <button type="submit" class="btn btn-success mb-2 mb-sm-0">{{ button_label|default('Créer horaire') }}</button>
+
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

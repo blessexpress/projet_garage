@@ -1,0 +1,58 @@
+{% if cars is not empty %}
+    {% for car in cars %}
+        <div class="col-lg-3 col-md-3 col-12" data-aos="fade-down">
+            <div class="listing-item">
+                <div class="listing-img">
+                    <a href="{{ path('app_vehicule_show', {'id': car.id}) }}">
+                        <img src="{{ vich_uploader_asset(car,'imageFile') }}" class="img-fluid" alt="{{ car.name }}">
+                    </a>
+                    <div class="fav-item">
+                        <span class="featured-text">{{ car.name }}</span>
+                        <a href="{{ path('app_vehicule_show', {'id': car.id}) }}" class="fav-icon">
+                            <i class="feather-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="listing-content">
+                    <div class="listing-features">
+                        <a href="javascript:void(0)" class="author-img">
+                            <img src="{{ asset('assets/img/logo_garage_v_parrot.png') }}" alt="Garage V parrot">
+                        </a>
+                        <h3 class="listing-title">
+                            <a href="{{ path('app_vehicule_show', {'id': car.id}) }}">{{ car.name }}</a>
+                        </h3>
+                    </div>
+                    <div class="listing-details-group">
+                        <ul>
+                            <li>
+                                <span><img src="{{ asset('assets/img/icons/car-parts-05.svg ') }}"
+                                           alt="{{ car.circulationYear }}"></span>
+                                <p>{{ car.circulationYear }}</p>
+                            </li>
+                            <li>
+                                <span><img src="assets/img/icons/car-parts-02.svg" alt="10 KM"></span>
+                                <p>{{ car.mileage }} KM</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="listing-location-details">
+                        <div class="listing-price">
+                            <span><i class="feather-user"></i></span>{{  car.user ? car.user.username : '' }}
+                        </div>
+                        <div class="listing-price">
+                            <h6>{{ car.price }} € <span>  </span></h6>
+                        </div>
+                    </div>
+                    <div class="listing-button">
+                        <a href="{{ path('app_vehicule_show', {'id': car.id}) }}" class="btn btn-order"><span><i
+                                        class="feather-eye me-2"></i></span>Détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+        <div class="col-lg-12 align-items-center text-center" data-aos="fade-down">
+            <h2 class="text-danger">Aucun véhicule trouvé</h2>
+        </div>
+{% endif %}

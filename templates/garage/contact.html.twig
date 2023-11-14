@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Contactez-nous {% endblock %}
+
+{% block body %}
+    <div class="breadcrumb-bar">
+        <div class="container">
+            <div class="row align-items-center text-center">
+                <div class="col-md-12 col-12">
+                    <h2 class="breadcrumb-title">Contactez-nous </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="contact-section">
+        <div class="container">
+            <div class="form-info-area" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="0.5">
+                <div class="row">
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-6">
+                        {{ include ('components/flash_message.html.twig') }}
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="/assets/img/contact-info.jpg" class="img-fluid" alt="Contact">
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        {{ form_start(formulaire, {'attr': {'id': 'form_contact'}}) }}
+                        <div id="liste_erreurs" class="my-custom-class-for-errors">
+                            {{ form_errors(formulaire) }}
+                        </div>
+
+                        <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}"/>
+
+                        <input type="hidden" name="contact_jeton" id="contact_jeton" value="" />
+
+                        <div class="row">
+                            <h1>Prenez contact avec nous !!</h1>
+
+                            <div class="col-md-12">
+                                {{ form_label(formulaire.subject) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.subject) }}
+                                </div>
+                                {{ form_widget(formulaire.subject, {'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="col-md-12">
+                                {{ form_label(formulaire.name) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.name) }}
+                                </div>
+                                {{ form_widget(formulaire.name, {'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px;">
+                                {{ form_label(formulaire.first_name) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.first_name) }}
+                                </div>
+                                {{ form_widget(formulaire.first_name, {'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px;">
+                                {{ form_label(formulaire.email) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.email) }}
+                                </div>
+                                {{ form_widget(formulaire.email, {'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px;">
+                                {{ form_label(formulaire.phone) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.phone) }}
+                                </div>
+                                {{ form_widget(formulaire.phone, {'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: 10px;">
+                                {{ form_label(formulaire.message) }} <span class="text-danger">*</span>
+                                <div class="form-error">
+                                    {{ form_errors(formulaire.message) }}
+                                </div>
+                                {{ form_widget(formulaire.message, {'attr': {'class': 'form-control', 'rows': 10} }) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top: 10px;">
+                            <button class="btn btn-lg btn-primary mb-0" type="submit" id="envoyer-contact">
+                                Envoyer
+                            </button>
+                        </div>
+                        {{ form_rest(formulaire) }}
+                        {{ form_end(formulaire) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block head_js %}
+    {{ parent() }}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ recaptcha_keys_public }}"></script>
+    <script>
+        $('#envoyer-contact').click(function (e) {
+            e.preventDefault();
+            grecaptcha.ready(function () {
+                grecaptcha.execute('{{ recaptcha_keys_public }}', {action: 'contact'}).then(function (token) {
+                    var recaptchaResponse = document.getElementById('contact_jeton');
+                    recaptchaResponse.value = token;
+                    $('#form_contact').unbind('submit').submit();
+                });
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').addClass('bd-contact');
+            {% if erreurs %}
+            location.hash = "#" + 'liste_erreurs';
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+

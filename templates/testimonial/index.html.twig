@@ -1,0 +1,123 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Service {% endblock %}
+
+ {% block head_css %}
+     {{ parent() }}
+
+     <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
+ {% endblock %}
+
+{% block body %}
+<div class="page-content-wrapper border">
+    <!-- Title -->
+    <div class="row mb-3">
+        <div class="col-12 d-sm-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-2 mb-sm-0">Avis</h1>
+            <a href="{{ path('app_testimonial_new') }}" class="btn btn-sm btn-primary mb-0">Avis</a>
+        </div>
+    </div>
+
+    <!-- Main card START -->
+    <div class="card bg-transparent border">
+        {{ include ('components/flash_message.html.twig') }}
+        <!-- Card body START -->
+        <div class="card-body">
+            <!-- Instructor request table START -->
+            <div class="table-responsive border-0">
+                <table id="testimonial_table" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="border-0 rounded-start">Nom</th>
+                        <th scope="col" class="border-0">Note</th>
+                        <th scope="col" class="border-0">Commentaire</th>
+                        <th scope="col" class="border-0">Statut</th>
+                        <th scope="col" class="border-0 rounded-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for testimonial in testimonials %}
+                        <tr>
+                            <td>{{ testimonial.fullname }}</td>
+                            <td>{{ testimonial.note }}</td>
+                            <td>{{ testimonial.comment }}</td>
+                            <td>
+                                {% if testimonial.approved == 1 %}
+                                    <span class="btn btn-success">Approuvé</span>
+                                {% else %}
+                                    <button class="btn btn-danger approve-button" data-id="{{ testimonial.id }}">Approuver</button>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-danger-soft me-1 mb-1 mb-lg-0" href="{{ path('app_testimonial_edit', {'id': testimonial.id}) }}">Modifier</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            let table_naf = $('#testimonial_table').DataTable({
+                language: {
+                    "emptyTable": "Aucune avis existant",
+                    "info": "_START_ - _END_ (sur _TOTAL_ éléments)",
+                    "infoEmpty": "Aucun élément à afficher",
+                    "infoFiltered": "(filtré depuis un total de _MAX_ éléments)",
+                    "lengthMenu": "Affichage de _MENU_ log(s)",
+                    "search": "",
+                    "searchPlaceholder": "Rechercher avis",
+                    "zeroRecords": "Aucun avis trouvé",
+                    "paginate": {
+                        "first": "Première",
+                        "last": "Dernière",
+                        "next": "Suivante",
+                        "previous": "Précédente"
+                    }
+                },
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.approve-button').click(function() {
+                var testimonialId = $(this).data('id');
+                if (confirm('Êtes-vous sûr de vouloir approuver ce avis ?')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ path('app_testimonial_approve') }}',
+                        data: {
+                            id: testimonialId,
+                            _token: '{{ csrf_token('approve') }}'
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                alert('Erreur lors de l\'approbation du témoignage.');
+                            }
+                        },
+                        error: function() {
+                            alert('Erreur lors de la communication avec le serveur.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

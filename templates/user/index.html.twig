@@ -1,0 +1,104 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Utilisateurs {% endblock %}
+
+ {% block head_css %}
+     {{ parent() }}
+
+     <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
+ {% endblock %}
+
+{% block body %}
+    <!-- Page main content START -->
+    <div class="page-content-wrapper border">
+        <!-- Title -->
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0">Utilisateurs</h1>
+                <a href="{{ path('app_user_new') }}" class="btn btn-sm btn-primary mb-0">Créer un utilisateur</a>
+            </div>
+        </div>
+        <!-- Main card START -->
+        <div class="card bg-transparent border">
+
+            <!-- Card body START -->
+            <div class="card-body">
+                <!-- Instructor request table START -->
+                <div class="table-responsive border-0">
+                    <table id="users_table" class="table table-hover">
+                        <!-- Table head -->
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-0 rounded-start">Nom complet</th>
+                            <th scope="col" class="border-0 rounded-start">E-mail</th>
+                            <th scope="col" class="border-0 rounded-start">Profil</th>
+                            <th scope="col" class="border-0 rounded-end">Action</th>
+                        </tr>
+                        </thead>
+
+                        <!-- Table body START -->
+                        <tbody>
+
+                        {% for user in users %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center position-relative">
+                                        {{ user.username }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center position-relative">
+                                        {{ user.email }}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if 'ROLE_USER' in user.roles ? user.roles|json_encode and 'ROLE_ADMIN' in user.roles ? user.roles|json_encode %}
+                                        <span class="text-info"> Administrateur </span>
+                                    {% elseif 'ROLE_USER' in user.roles ? user.roles|json_encode %}
+                                        <span class="text-primary"> Employé </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger-soft me-1 mb-1 mb-lg-0"
+                                       href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#users_table').DataTable({
+                language: {
+                    "emptyTable": "Aucun service existant",
+                    "info": "_START_ - _END_ (sur _TOTAL_ éléments)",
+                    "infoEmpty": "Aucun élément à afficher",
+                    "infoFiltered": "(filtré depuis un total de _MAX_ éléments)",
+                    "lengthMenu": "Affichage de _MENU_ utilisateur(s)",
+                    "search": "",
+                    "searchPlaceholder": "Rechercher utilisateur",
+                    "zeroRecords": "Aucun  service trouvé",
+                    "paginate": {
+                        "first": "Première",
+                        "last": "Dernière",
+                        "next": "Suivante",
+                        "previous": "Précédente"
+                    }
+                },
+            });
+        });
+    </script>
+{% endblock %}

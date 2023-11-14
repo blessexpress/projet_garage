@@ -1,0 +1,282 @@
+{% extends 'base_dashboard.html.twig' %}
+ {% block head_css %}
+     {{ parent() }}
+     <style>
+         /* Applique le padding seulement aux lignes de tableau existantes, pas aux nouvelles */
+         .table > tbody > tr > td {
+             padding: 1rem 0.5rem;
+         }
+
+         /* Supprime le padding des lignes ajoutées par JavaScript */
+         .table > tbody > tr.added-row > td {
+             padding: 0; /* Ajustez le padding comme vous le souhaitez */
+         }
+         .table > :not(caption) > * > *{
+             margin-top: 10px;
+             padding: 0rem 0.5rem;
+             background-color: var(--bs-table-bg);
+             border-bottom-width: 1px;
+             -webkit-box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+             box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+         }
+
+         .table-responsive .table td {
+             width: 100%;
+         }
+
+         /* Style the input to take up the entire cell width */
+         .table-responsive .table td input[type="text"], /* Adjust if you are using different input types */
+         .table-responsive .table td input[type="number"], /* Add selectors for different input types as needed */
+         .table-responsive .table td input[type="email"] { /* Example for different input types */
+             width: 100%;
+             padding: 6px 12px; /* Adjust as needed */
+             margin: 0; /* Removes any default margin */
+             box-sizing: border-box; /* Include padding and border in the element's total width and height */
+         }
+
+         /* Optional: Add responsive behavior for very small devices */
+         @media (max-width: 576px) {
+             .table-responsive .table td {
+                 padding: 4px; /* Less padding on smaller screens */
+             }
+
+             .table-responsive .table td input[type="text"],
+             .table-responsive .table td input[type="number"],
+             .table-responsive .table td input[type="email"] {
+                 padding: 4px 8px; /* Smaller padding on smaller screens */
+             }
+         }
+
+         .delete-feature-btn {
+             /* Add your styling here */
+             cursor: pointer;
+         }
+
+     </style>
+ {% endblock %}
+{% block title %} Vehicule {% endblock %}
+{% block body %}
+
+    <!-- Page main content START -->
+    <div class="page-content-wrapper border">
+
+        <!-- Title -->
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0">Nouveau vehicule</h1>
+                <a href="{{ path('app_car_index') }}" class="btn btn-sm btn-primary mb-0">Liste de vehicule</a>
+            </div>
+        </div>
+        <!-- Main card START -->
+        <div class="card bg-transparent border">
+
+            <!-- Card header START -->
+            <div class="card-header bg-white border-bottom">
+                <!-- Search and select START -->
+                <div class="row g-3 align-items-center justify-content-between">
+                    {{ include('car/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block head_js %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        // Add features button
+        document.addEventListener('DOMContentLoaded', function () {
+            var featuresList = document.getElementById('features-list');
+            var index = featuresList.children.length;
+            // Function to update event listeners
+            function updateDeleteButtons() {
+                document.querySelectorAll('.delete-features-btn').forEach(function(button) {
+                    button.removeEventListener('click', handleDelete);
+                    button.addEventListener('click', handleDelete);
+                });
+            }
+            // Function to handle delete action
+            function handleDelete(event) {
+                var row = event.target.closest('tr');
+                row.parentNode.removeChild(row);
+            }
+            document.getElementById('add-features-btn').addEventListener('click', function () {
+                var prototype = `
+                <tr>
+                    <td>{{ form_widget(form.features.vars.prototype.title) }}</td>
+                    <td><button type="button" class="btn btn-danger delete-features-btn">Supprimer</button></td>
+                </tr>`;
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = prototype.replace(/__name__/g, index); // Replace the index if necessary
+                featuresList.appendChild(newRow);
+                index++;
+
+                updateDeleteButtons(); // Update the delete buttons event listeners
+            });
+            // Initial update for delete buttons event listeners
+            updateDeleteButtons();
+        });
+
+
+        // Add equipment button
+        document.addEventListener('DOMContentLoaded', function () {
+            var equipmentList = document.getElementById('equipment-list');
+            var index = equipmentList.children.length;
+            // Function to update event listeners
+            function updateDeleteButtons() {
+                document.querySelectorAll('.delete-equipment-btn').forEach(function(button) {
+                    button.removeEventListener('click', handleDelete);
+                    button.addEventListener('click', handleDelete);
+                });
+            }
+            // Function to handle delete action
+            function handleDelete(event) {
+                var row = event.target.closest('tr');
+                row.parentNode.removeChild(row);
+            }
+            document.getElementById('add-equipment-btn').addEventListener('click', function () {
+                var prototype = `
+                <tr>
+                    <td>{{ form_widget(form.equipment.vars.prototype.title) }}</td>
+                    <td><button type="button" class="btn btn-danger delete-equipment-btn">Supprimer</button></td>
+                </tr>`;
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = prototype.replace(/__name__/g, index);
+                equipmentList.appendChild(newRow);
+                index++;
+
+                updateDeleteButtons(); // Update the delete buttons event listeners
+            });
+            // Initial update for delete buttons event listeners
+            updateDeleteButtons();
+        });
+
+        // Add options button
+        document.addEventListener('DOMContentLoaded', function () {
+            var optionsList = document.getElementById('options-list');
+            var index = optionsList.children.length;
+            // Function to update event listeners
+            function updateDeleteButtons() {
+                document.querySelectorAll('.delete-options-btn').forEach(function(button) {
+                    button.removeEventListener('click', handleDelete);
+                    button.addEventListener('click', handleDelete);
+                });
+            }
+            // Function to handle delete action
+            function handleDelete(event) {
+                var row = event.target.closest('tr');
+                row.parentNode.removeChild(row);
+            }
+            document.getElementById('add-options-btn').addEventListener('click', function () {
+                        var prototype = `
+                <tr>
+                    <td>{{ form_widget(form.options.vars.prototype.title) }}</td>
+                    <td><button type="button" class="btn btn-danger delete-options-btn">Supprimer</button></td>
+                </tr>`;
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = prototype.replace(/__name__/g, index); // Replace the index if necessary
+                optionsList.appendChild(newRow);
+                index++;
+
+                updateDeleteButtons(); // Update the delete buttons event listeners
+            });
+            // Initial update for delete buttons event listeners
+            updateDeleteButtons();
+        });
+
+    </script>
+
+
+
+   {# <script>
+        $('#add-image').click(function(){
+            const index = $('#ad_images div.form-group').length;
+
+            const tmp = $('#ad_images').data('prototype').replace(/_name_/g,index);
+            $('#ad_images').append(tmp);
+
+            handleDeleteButton();
+        });
+
+        function handleDeleteButton(){
+            $('button[data-action="delete"]').click(function(){
+                const target = this.dataset.target;
+                $(target).remove();
+            })
+        }
+
+        handleDeleteButton();
+    </script>#}
+
+   {# <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var characteristicsList = document.getElementById('characteristics-list');
+            var index = characteristicsList.getElementsByTagName('tr').length; // Utilisez getElementsByTagName pour compter les lignes
+
+            document.getElementById('add-characteristic-btn').addEventListener('click', function () {
+                var prototype = '{{ form_widget(form.features.vars.prototype)|e('html_attr') }}';
+                var newFeatures = prototype.replace(/__name__/g, index);
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + newFeatures + '</td>';
+                characteristicsList.appendChild(tr);
+                index++;
+            });
+        });
+    </script>#}
+    {#{% set featuresPrototype = form.children.features.vars.prototype|e('html_attr') %}
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var characteristicsList = document.getElementById('characteristics-list');
+            var index = characteristicsList.getElementsByTagName('tr').length;
+
+            document.getElementById('add-characteristic-btn').addEventListener('click', function () {
+                var newFeatures = '{{ featuresPrototype|raw }}';  #}{# Utilisez |raw pour obtenir la chaîne brute #}{#
+                newFeatures = newFeatures.replace(/__name__/g, index);
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + newFeatures + '</td>';
+                characteristicsList.appendChild(tr);
+                index++;
+            });
+        });
+    </script>
+
+#}
+
+    {#<script>
+        $(document).ready(function() {
+            let $imageGallery = $('#image-gallery');
+            let $addImageButton = $('#add-image');
+            let $imageCount = {{ form.galleries|length }};
+
+            $addImageButton.click(function(e) {
+                e.preventDefault(); // Empêche l'action par défaut du lien
+
+                // Clonez le modèle du champ de collection
+                let $newImageItem = $('.image-item').first().clone();
+
+                // Mettez à jour le nom des champs pour les rendre uniques
+                $newImageItem.find('input').each(function() {
+                    let name = $(this).attr('name');
+                    console.log('Avant remplacement:', name); // Affiche le nom actuel dans la console
+                    name = name.replace(/(\d+)/, $imageCount);
+                    console.log('Après remplacement:', name); // Affiche le nom après la modification dans la console
+                    $(this).attr('name', name);
+                });
+
+                $imageGallery.append($newImageItem);
+                $imageCount++;
+            });
+
+            $imageGallery.on('click', '.remove-image', function(e) {
+                e.preventDefault(); // Empêche l'action par défaut du lien
+                $(this).parent().remove();
+            });
+        });
+    </script>#}
+{% endblock %}
+

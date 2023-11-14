@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Nos véhicules d'occasion  {% endblock %}
+
+
+ {% block head_css %}
+     {{ parent() }}
+
+     <style>
+         @media (max-width: 768px) {
+             .form-group {
+                 width: 100%; /* Les champs de formulaire prennent toute la largeur */
+             }
+             .btn {
+                 width: 100%; /* Les boutons prennent toute la largeur */
+             }
+             /* Autres styles spécifiques aux mobiles */
+         }
+     </style>
+
+     <link rel="stylesheet" href="{{ asset('assets/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+
+ {% endblock %}
+
+{% block body %}
+    <section class="section services">
+        <div class="service-right">
+            <img src="{{ asset('assets/img/bg/service-right.svg') }}" class="img-fluid" alt="services right">
+        </div>
+        <div class="container">
+
+            <div class="section-heading" data-aos="fade-down">
+                <h2>Nos véhicules d'occasion </h2>
+            </div>
+
+            <div class="services-work">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section car-listing">
+            <div class="container">
+                <div class="row">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-xl-12 col-lg-12 col-sm-12 col-12">
+                            <form id="filter-form" class="mt-3 container">
+                                <div class="d-flex flex-sm-column flex-lg-row col-lg-8">
+                                    <div class="col-md-4 m-2">
+                                        <div class="form-group mt-4">
+                                            <label for="mileageRange">Kilométrage </label>
+                                            <div id="mileageRangeDisplay">177220 km - 267220 km</div>
+                                            <input type="range" class="custom-range" min="20000" max="300000"
+                                                   step="1000" id="mileageRange" value="177220" style="width: 100%">
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button id="resetMileage" class="btn btn-secondary justify-content-lg-end">
+                                                Réinitialiser
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 m-2">
+                                        <div class="form-group mt-4">
+                                            <label for="priceRange">Prix </label>
+                                            <div id="priceRangeDisplay">5000 € - 10000 €</div>
+                                            <input type="range" class="custom-range" min="5000" max="10000" step="1000"
+                                                   id="priceRange" value="5000" style="width: 100%">
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button id="resetPrice" class="btn btn-secondary justify-content-lg-end">
+                                                Réinitialiser
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 m-2">
+                                        <div class="form-group mt-4">
+                                            <label for="yearRange">Années </label>
+                                            <div id="yearRangeDisplay">2010</div>
+                                            <input type="range" class="custom-range" min="1990" max="2023" step="1"
+                                                   id="yearRange" value="2010" style="width: 100%">
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button id="resetYear" class="btn btn-secondary justify-content-lg-end">
+                                                Réinitialiser
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 m-2 align-self-center">
+                                        <button id="filter-car" type="submit" class="btn btn-danger m-2"><i
+                                                    class="feather-filter me-2"></i> Filtrer
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row" id="car-filters">
+
+        </div>
+    </section>
+{% endblock %}
+{% block head_js %}
+    {{ parent() }}
+
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/custom-rangeslider.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            loadInitialData();
+
+            // Mise à jour de l'affichage des valeurs des sliders
+            function updateFilterDisplay(sliderId, displayId, unit) {
+                var value = $('#' + sliderId).val();
+                console.log(displayId); // Debug: Afficher la valeur dans la console
+                $('#' + displayId).text(value + unit);
+            }
+
+            updateFilterDisplay('mileageRange', 'mileageDisplay', ' km');
+            updateFilterDisplay('priceRange', 'priceValue', ' €');
+            updateFilterDisplay('yearRange', 'yearValue', '');
+
+            $('#mileageRange, #priceRange, #yearRange').on('input', function () {
+                var unit = $(this).attr('id') === 'priceRange' ? ' €' : ($(this).attr('id') === 'yearRange' ? '' : ' km');
+                updateFilterDisplay($(this).attr('id'), $(this).attr('id') + 'Display', unit);
+            });
+
+            $('#resetMileage').click(function () {
+                $('#mileageRange').val(177220);
+                updateFilterDisplay('mileageRange', 'mileageDisplay', ' km');
+            });
+
+            $('#resetPrice').click(function () {
+                $('#priceRange').val(5000);
+                updateFilterDisplay('priceRange', 'priceValue', ' €');
+            });
+
+            $('#resetYear').click(function () {
+                alert('jdjd');
+                $('#yearRange').val(2010);
+                updateFilterDisplay('yearRange', 'yearValue', '');
+            });
+
+            // Gestion de la soumission du formulaire de filtre
+            $('#filter-form').submit(function (event) {
+                event.preventDefault();
+                var formData = {
+                    'mileage': $('#mileageRange').val(),
+                    'price': $('#priceRange').val(),
+                    'year': $('#yearRange').val()
+                };
+                $.ajax({
+                    url: '{{ path('car_list_filtered') }}',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        $('#car-filters').html(response);
+                        console.log('Données reçues:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur AJAX:', error);
+                    }
+                });
+            });
+
+            function loadInitialData() {
+                $.ajax({
+                    url: '{{ path('car_list_filtered') }}',
+                    type: 'GET',
+                    success: function (response) {
+                        $('#car-filters').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors du chargement initial:', error);
+                    }
+                });
+            }
+
+        });
+    </script>
+
+
+{% endblock %}

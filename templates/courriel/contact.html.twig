@@ -1,0 +1,11 @@
+<h2>Une demande de contact a été envoyée</h2>
+
+<div>
+    L'adresse mail suivante {{ contact.email }} a envoyé le message suivant à partir du formulaire en ligne :
+</div>
+<div>
+    <i>{{ contact.message }}</i>
+</div><br/>
+<div>
+    <small>Pour se connecter à l'application, aller sur : <a href="{{ url('app_login') }}">{{ url('app_login') }}</a>.</small>
+</div>

@@ -1,0 +1,178 @@
+{{ form_start(form) }}
+<div class="row g-4">
+    <div class="col-12">
+        {{ form_label(form.name) }}
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
+        {{ form_widget(form.name, {'attr': {'class': 'form-control','placeholder':'Titre '} }) }}
+    </div>
+
+    <div class="col-12">
+        {{ form_label(form.description) }}
+        <div class="form-error">
+            {{ form_errors(form.description) }}
+        </div>
+        {{ form_widget(form.description, {'attr': {'class': 'form-control','rows':"5",'cols':"33"} }) }}
+    </div>
+
+
+    <div class="col-6">
+        {{ form_label(form.circulation_year) }}
+        <div class="form-error">
+            {{ form_errors(form.circulation_year) }}
+        </div>
+        {{ form_widget(form.circulation_year,{'attr': {'class':'form-control'} }) }}
+    </div>
+
+    <div class="col-6">
+        {{ form_label(form.price) }}
+        <div class="form-error">
+            {{ form_errors(form.price) }}
+        </div>
+        {{ form_widget(form.price, {'attr': {'class': 'form-control'} }) }}
+    </div>
+
+    <div class="col-6">
+        {{ form_label(form.mileage) }}
+        <div class="form-error">
+            {{ form_errors(form.mileage) }}
+        </div>
+        {{ form_widget(form.mileage,{'attr': {'class':'form-control'} }) }}
+    </div>
+
+    <div class="col-12">
+        <div class="text-center justify-content-center align-items-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-3">
+            <!-- Image -->
+            <img src="/assets/images/element/gallery.svg" class="h-50px" alt="">
+            <div>
+                <h6 class="my-2">Télécharger l'image princiapl ou <a href="#!" class="text-primary">
+                        Parcourir</a>
+                </h6>
+                <label style="cursor:pointer;">
+                            <span>
+                               {{ form_widget(form.imageFile,{'attr': {'class':'form-control stretched-link','accept':'image/svg'} }) }}
+                            </span>
+                </label>
+                <p class="small mb-0 mt-2"><b>Note:</b>
+                    Seulement SVG. Les dimensions suggérées sont 128px * 308px. Les images plus
+                    grandes seront recadrées au format 4:3 pour s'adapter à nos vignettes/présentations.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive border-0">
+        <table id="features-list" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="characteristics-list">
+            {% for feature in form.features %}
+                <tr>
+                    <td>
+                        {{ form_widget(feature.title) }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete-features-btn"> Supprimer </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-sm-flex justify-content-end mt-2">
+        <button type="button" id="add-features-btn" class="btn btn-sm btn-danger-soft mb-3">+ Ajouter
+            caractéristique
+        </button>
+    </div>
+
+
+    <div class="table-responsive border-0">
+        <table id="equipment-list" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="equipment-list">
+            {% for equipement in form.equipment %}
+                <tr>
+                    <td>
+                        {{ form_widget(equipement.title) }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete-equipment-btn">Supprimer</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-sm-flex justify-content-end mt-2">
+        <button type="button" id="add-equipments-btn" class="btn btn-sm btn-danger-soft mb-3">+ Ajouter
+            equipement
+        </button>
+    </div>
+
+    <div class="table-responsive border-0">
+        <table id="options-list" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="options-list">
+            {% for option in form.options %}
+                <tr>
+                    <td>
+                        {{ form_widget(option.title) }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete-options-btn">Supprimer</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-sm-flex justify-content-end mt-2">
+        <button type="button" id="add-options-btn" class="btn btn-sm btn-danger-soft mb-3">+ Ajouter
+            option
+        </button>
+    </div>
+
+    <div class="col-12">
+        <div class="text-center justify-content-center align-items-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-3">
+            <!-- Image -->
+            <img src="/assets/images/element/gallery.svg" class="h-50px" alt="">
+            <div>
+                <h6 class="my-2">{{ form_label(form.galleries) }} ou <a href="#!" class="text-primary">
+                        Parcourir</a>
+                </h6>
+                <label style="cursor:pointer;">
+                            <span>
+                               {{ form_widget(form.galleries,{'attr': {'class':'form-control stretched-link','accept':'image/png'} }) }}
+                            </span>
+                </label>
+                <p class="small mb-0 mt-2"><b>Note:</b>
+{#                    Seulement png. Les dimensions suggérées sont 128px * 308px. Les images plus#}
+{#                    grandes seront recadrées au format 4:3 pour s'adapter à nos vignettes/présentations.</p>#}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-end align-items-center mt-4">
+        <button type="submit" class="btn btn-success mb-2 mb-sm-0">{{ button_label|default('Créer véhicule') }}</button>
+    </div>
+
+
+
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}

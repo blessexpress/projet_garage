@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+    <section class="section services">
+        <div class="service-right">
+            <img src="/assets/img/bg/service-right.svg" class="img-fluid" alt="services right">
+        </div>
+        <div class="container">
+            <div data-aos="fade-down">
+                <div class="col-sm-12 text-center">
+                    {% include "include/message.html.twig" with { type: "danger", message: ('Il se peut que vous ne disposiez pas des autorisations nécessaires pour accéder à cette ressource..'), icon: "fas fa-ban" } %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

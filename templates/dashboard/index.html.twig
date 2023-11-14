@@ -1,0 +1,154 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Tableau de bord {% endblock %}
+
+{% block body %}
+
+    <!-- Page main content START -->
+    <div class="page-content-wrapper border">
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h1 class="h3 mb-2 mb-sm-0">Tableau de bord </h1>
+            </div>
+        </div>
+
+        <!-- Counter boxes START -->
+        <div class="row g-4 mb-4">
+            <!-- Counter item -->
+            <div class="col-md-6 col-xxl-6">
+                <div class="card card-body bg-warning bg-opacity-15 p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Digit -->
+                        <div>
+                            <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="{{ countCar ? countCar : 0 }}" data-purecounter-delay="200">{{ countCar ? countCar : 0 }}</h2>
+                            <span class="mb-0 h6 fw-light">VEHICULES</span>
+                        </div>
+                        <!-- Icon -->
+                        <div class="icon-lg rounded-circle bg-warning text-white mb-0"><i class="fas fa-user-alt fa-fw"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Counter item -->
+            <div class="col-md-6 col-xxl-6">
+                <div class="card card-body bg-purple bg-opacity-10 p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Digit -->
+                        <div>
+                            <h2 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="{{ countUsers ? countUsers : 0 }}"	data-purecounter-delay="200">{{ countUsers ? countUsers : 0 }}</h2>
+                            <span class="mb-0 h6 fw-light">UTILISATEURS</span>
+                        </div>
+                        <!-- Icon -->
+                        <div class="icon-lg rounded-circle bg-purple text-white mb-0"><i class="fas fa-user fa-fw"></i></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Counter boxes END -->
+
+        <!-- Chart and Ticket START -->
+        {#<div class="row g-4 mb-4">
+
+                <!-- Notice Board START -->
+                <div class="col-lg-12">
+                    <div class="card shadow h-100">
+                        <!-- Card header -->
+                        <div class="card-header border-bottom p-4">
+                            <h5 class="card-header-title">Notifications</h5>
+                        </div>
+
+                        <!-- Card body START -->
+                        <div class="card-body p-4">
+                            <div class="custom-scrollbar h-300px">
+
+                                <!-- Notice Board item START -->
+                                <div class="d-flex justify-content-between position-relative">
+                                    <div class="d-sm-flex">
+                                        <div class="icon-lg bg-purple bg-opacity-10 text-purple rounded-2 flex-shrink-0"><i class="fas fa-user-tie fs-5"></i></div>
+                                        <!-- Info -->
+                                        <div class="ms-0 ms-sm-3 mt-2 mt-sm-0">
+                                            <h6 class="mb-0"><a href="#" class="stretched-link">Join New Instructor</a></h6>
+                                            <p class="mb-0">Amongst moments do in arrived Fat weddings believed prospect</p>
+                                            <span class="small">5 min ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notice Board item END -->
+
+                                <hr><!-- Divider -->
+
+                                <!-- Notice Board item START -->
+                                <div class="d-flex justify-content-between position-relative">
+                                    <div class="d-sm-flex">
+                                        <div class="icon-lg bg-orange bg-opacity-10 text-orange rounded-2 flex-shrink-0"><i class="fas fa-book-open fs-5"></i></div>
+                                        <!-- Info -->
+                                        <div class="ms-0 ms-sm-3 mt-2 mt-sm-0">
+                                            <h6 class="mb-0"><a href="#" class="stretched-link">Update New Course</a></h6>
+                                            <p class="mb-0">Arrived Fat weddings believed prospect</p>
+                                            <span class="small">4 hour ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notice Board item END -->
+
+                                <hr><!-- Divider -->
+
+                                <!-- Notice Board item START -->
+                                <div class="d-flex justify-content-between position-relative">
+                                    <div class="d-sm-flex">
+                                        <div class="icon-lg bg-info bg-opacity-10 text-info rounded-2 flex-shrink-0"><i class="fas fa-book fs-5"></i></div>
+                                        <!-- Info -->
+                                        <div class="ms-0 ms-sm-3 mt-2 mt-sm-0">
+                                            <h6 class="mb-0"><a href="#" class="stretched-link">Update Syllabus</a></h6>
+                                            <p class="mb-0">Arrived Fat weddings believed prospect</p>
+                                            <span class="small">2 days ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notice Board item END -->
+
+                                <hr><!-- Divider -->
+
+                                <!-- Notice Board item START -->
+                                <div class="d-flex justify-content-between position-relative">
+                                    <div class="d-sm-flex">
+                                        <div class="icon-lg bg-danger bg-opacity-10 text-danger rounded-2 flex-shrink-0"><i class="fas fa-globe fs-5"></i></div>
+                                        <!-- Info -->
+                                        <div class="ms-0 ms-sm-3 mt-2 mt-sm-0">
+                                            <h6 class="mb-0"><a href="#" class="stretched-link">Update New Feature</a></h6>
+                                            <p class="mb-0">Arrived Fat weddings believed prospect</p>
+                                            <span class="small">3 days ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notice Board item END -->
+                            </div>
+                        </div>
+                        <!-- Card body END -->
+
+                        <!-- Card footer START -->
+                        <div class="card-footer border-top">
+                            <div class="alert alert-success d-flex align-items-center mb-0 py-2">
+                                <div>
+                                    <small class="mb-0">45 more notices listed</small>
+                                </div>
+                                <div class="ms-auto">
+                                    <a class="btn btn-sm btn-success-soft mb-0" href="#!"> View all </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card footer START -->
+                    </div>
+                </div>
+                <!-- Notice Board END -->
+
+            </div>#}
+
+    </div>
+    <!-- Page main content END -->
+    </div>
+    <!-- Page content END -->
+{% endblock %}

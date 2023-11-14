@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+<div class="row g-4">
+
+    <div class="col-6">
+        {{ form_label(form.fullname) }}
+        <div class="form-error">
+            {{ form_errors(form.fullname) }}
+        </div>
+        {{ form_widget(form.fullname, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="col-6">
+        {{ form_label(form.note) }}
+        <div class="form-error">
+            {{ form_errors(form.note) }}
+        </div>
+        {{ form_widget(form.note, {'attr': {'class': 'form-select js-choice'} }) }}
+    </div>
+
+
+    <div class="col-6">
+        {{ form_label(form.approved) }}
+        <div class="form-error">
+            {{ form_errors(form.approved) }}
+        </div>
+        {{ form_widget(form.approved, {'attr': {'class': 'form-select js-choice'} }) }}
+    </div>
+
+    <div class="col-6">
+        {{ form_label(form.comment) }}
+        <div class="form-error">
+            {{ form_errors(form.comment) }}
+        </div>
+        {{ form_widget(form.comment, {'attr': {'class': 'form-control', 'rows': 10} }) }}
+    </div>
+
+    <div class="d-md-flex justify-content-between align-items-end mt-4">
+        <div class="text-md-end">
+            <button type="submit" class="btn btn-success mb-2 mb-sm-0">{{ button_label|default('Créer avis') }}</button>
+
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

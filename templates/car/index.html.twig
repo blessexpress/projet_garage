@@ -1,0 +1,107 @@
+
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Service {% endblock %}
+
+ {% block head_css %}
+
+     {{ parent() }}
+
+     <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
+ {% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper border">
+
+        <!-- Title -->
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0">Liste véhicule</h1>
+                <a href="{{ path('app_car_new') }}" class="btn btn-sm btn-primary mb-0">Créer un service</a>
+            </div>
+        </div>
+
+        <!-- Main card START -->
+        <div class="card bg-transparent border">
+
+            {{ include ('components/flash_message.html.twig') }}
+
+            <!-- Card body START -->
+            <div class="card-body">
+                <!-- Instructor request table START -->
+                <div class="table-responsive border-0">
+                    <table id="vehicule_table" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-0 rounded-start">Image</th>
+                            <th scope="col" class="border-0">Nom</th>
+                            <th scope="col" class="border-0">Description</th>
+                            <th scope="col" class="border-0">Prix</th>
+                            <th scope="col" class="border-0">Année de ciculation</th>
+                            <th scope="col" class="border-0">Kilometre</th>
+                            <th scope="col" class="border-0 rounded-end">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for car in cars %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center position-relative">
+                                        <!-- Image -->
+                                        <div class="avatar avatar-md">
+                                            <img src="{{ vich_uploader_asset(car,'imageFile')  }}" alt="{{ car.originalName}}" height="40" width="40"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ car.name }}</td>
+                                <td> {{ car.description|truncate(100,true, ' ... ') }}</td>
+                                <td>{{ car.price }} € </td>
+                                <td>{{ car.circulationYear }}</td>
+                                <td>{{ car.mileage }} km</td>
+                                <td>
+                                    <a class="btn btn-danger-soft me-1 mb-1 mb-lg-0"
+                                       href="{{ path('app_car_show', {'id': car.id}) }}">Afficher</a>
+
+                                    <a class="btn btn-danger-soft me-1 mb-1 mb-lg-0"
+                                       href="{{ path('app_car_edit', {'id': car.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            let table_naf = $('#vehicule_table').DataTable({
+                language: {
+                    "emptyTable": "Aucun véhicule existant",
+                    "info": "_START_ - _END_ (sur _TOTAL_ éléments)",
+                    "infoEmpty": "Aucun élément à afficher",
+                    "infoFiltered": "(filtré depuis un total de _MAX_ éléments)",
+                    "lengthMenu": "Affichage de _MENU_ log(s)",
+                    "search": "",
+                    "searchPlaceholder": "Rechercher véhicule",
+                    "zeroRecords": "Aucun  véhicule trouvé",
+                    "paginate": {
+                        "first": "Première",
+                        "last": "Dernière",
+                        "next": "Suivante",
+                        "previous": "Précédente"
+                    }
+                },
+            });
+        });
+    </script>
+{% endblock %}

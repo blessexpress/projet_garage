@@ -1,0 +1,31 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %} Modifier utilisateur {% endblock %}
+
+{% block body %}
+    <!-- Page main content START -->
+    <div class="page-content-wrapper border">
+
+        <!-- Title -->
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0">Modifier  utilisateur </h1>
+                <a href="{{ path('app_user_index') }}" class="btn btn-sm btn-primary mb-0">Liste utilisateur</a>
+            </div>
+        </div>
+        <!-- Main card START -->
+        <div class="card bg-transparent border">
+
+            <div class="card-header bg-white border-bottom">
+                <!-- Search and select START -->
+                <div class="row g-3 align-items-center justify-content-between">
+                    {{ include('user/_form.html.twig', {'button_label': 'Modifier utilisateur'}) }}
+
+                    {{ include('user/_delete_form.html.twig') }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper border">
+        <div class="row mb-3">
+            <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-2 mb-sm-0"> Nouveau avis </h1>
+                <a href="{{ path('app_testimonial_index') }}" class="btn btn-sm btn-primary mb-0"> Liste des avis </a>
+            </div>
+        </div>
+        <div class="card bg-transparent border">
+            <div class="card-header bg-white border-bottom">
+                <div class="row g-3 align-items-center justify-content-between">
+                    {{ include('testimonial/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
