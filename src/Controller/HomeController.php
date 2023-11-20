@@ -165,13 +165,13 @@ class HomeController extends AbstractController
                 $this->em->persist($contact);
                 $this->em->flush();
 
-                if ($this->mailerService->envoyerContact($contact) !== 0) {
+               # if ($this->mailerService->envoyerContact($contact) !== 0) {
 
-                    $this->mailerService->envoyerAccuse($contact);
+                   # $this->mailerService->envoyerAccuse($contact);
                     $this->addFlash('success', 'Votre message a été envoyé');
-                } else {
-                    $this->addFlash('danger', "Erreur lors de l'envoie de lors de l'envoi de la demande");
-                }
+               # } else {
+                #    $this->addFlash('danger', "Erreur lors de l'envoie de lors de l'envoi de la demande");
+                #}
 
                 return $this->redirect(
                     $this->router->generate('app_contact')
@@ -220,11 +220,11 @@ class HomeController extends AbstractController
                 $this->em->persist($testimonial);
                 $this->em->flush();
 
-                if ($this->mailerService->envoyerTestimonial($testimonial) !== 0) {
+                #if ($this->mailerService->envoyerTestimonial($testimonial) !== 0) {
                     $this->addFlash('success', 'Votre avis a été envoyé');
-                } else {
-                    $this->addFlash('danger', "Erreur lors de l'envoie de lors de l'envoi de la demande");
-                }
+               # } else {
+                   # $this->addFlash('danger', "Erreur lors de l'envoie de lors de l'envoi de la demande");
+               # }
 
                 return $this->redirect(
                     $this->router->generate('app_public_testimonial')
