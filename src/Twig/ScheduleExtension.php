@@ -20,9 +20,6 @@ class ScheduleExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            // If your filter generates SAFE HTML, you should add a third
-            // parameter: ['is_safe' => ['html']]
-            // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('truncate', [$this, 'truncateFilter']),
         ];
     }
@@ -33,7 +30,6 @@ class ScheduleExtension extends AbstractExtension
             new TwigFunction('displaySchedule', [$this, 'displaySchedule']),
         ];
     }
-
 
     public function truncateFilter(string $string, int $length = 30, string $suffix = '...'): string
     {
@@ -49,34 +45,59 @@ class ScheduleExtension extends AbstractExtension
         // Récupérer les dernières données d'horaire depuis la base de données
         $latestSchedule = $this->em->getRepository(Schedule::class)->findOneBy([], ['id' => 'DESC']);
 
-        // Créez un tableau pour stocker les horaires de chaque jour de la semaine
+        // Si aucun horaire n'a été trouvé, initialiser le tableau avec des valeurs nulles
         $schedules = [];
 
+        if (!$latestSchedule) {
+            // Si aucune donnée n'est trouvée, on remplit le tableau avec null pour chaque jour
+            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            foreach ($days as $day) {
+                $schedules[$day] = null;  // Horaire fermé pour chaque jour
+            }
+
+            return $schedules;
+        }
+
+        // Créez un tableau pour stocker les horaires de chaque jour de la semaine
         $days = [
             'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
         ];
 
         foreach ($days as $day) {
+            // Générer les noms de méthodes dynamiques
             $amMethod = 'get' . $day . 'AM';
             $pmMethod = 'get' . $day . 'PM';
             $closeAmMethod = 'getClose' . strtolower($day) . 'AM';
             $closePmMethod = 'getClose' . strtolower($day) . 'PM';
 
-            $amTime = $latestSchedule->$amMethod();
-            $pmTime = $latestSchedule->$pmMethod();
+            // Vérifier que les méthodes existent et ne retournent pas null
+            if (method_exists($latestSchedule, $amMethod) && method_exists($latestSchedule, $pmMethod)) {
+                $amTime = $latestSchedule->$amMethod();
+                $pmTime = $latestSchedule->$pmMethod();
 
-            if ($amTime && $pmTime == "00:00:00") {
-                $schedules[$day] = null; // Horaire fermé
+                // Vérifier si les horaires sont valides
+                if ($amTime && $pmTime && $amTime->format('H:i') !== "00:00" && $pmTime->format('H:i') !== "00:00") {
+                    $closeAmTime = method_exists($latestSchedule, $closeAmMethod) ? $latestSchedule->$closeAmMethod() : null;
+                    $closePmTime = method_exists($latestSchedule, $closePmMethod) ? $latestSchedule->$closePmMethod() : null;
+
+                    // Construire l'horaire du jour
+                    $schedules[$day] = [
+                        'open' => $amTime->format('H:i'),
+                        'close' => ($closeAmTime ? $closeAmTime->format('H:i') : 'N/A') . ', ' .
+                            ($pmTime ? $pmTime->format('H:i') : 'N/A') . '-' . 
+                            ($closePmTime ? $closePmTime->format('H:i') : 'N/A')
+                    ];
+                } else {
+                    // Horaire fermé ou invalidé
+                    $schedules[$day] = null;
+                }
             } else {
-                $schedules[$day] = [
-                    'open' => $amTime->format('H:i'),
-                    'close' => $latestSchedule->$closeAmMethod()->format('H:i') . ', ' .
-                        $pmTime->format('H:i') . '-' . $latestSchedule->$closePmMethod()->format('H:i')
-                ];
+                // Si les méthodes n'existent pas, on marque l'horaire comme fermé
+                $schedules[$day] = null;
             }
         }
 
+        // Retourner le tableau des horaires avec des valeurs valides ou fermées
         return $schedules;
     }
-
 }
